@@ -19,17 +19,18 @@ export default function JewelryHero({ pageData }: JewelryHeroProps) {
   };
 
   const c = pageData;
-  const heroImages = c.heroImages && c.heroImages.length >= 3 ? c.heroImages.slice(0, 3) : [c.heroImage, c.heroImage, c.heroImage];
+  const raw = c.heroImages && c.heroImages.length > 0 ? c.heroImages : [c.heroImage];
+  const heroImages = raw.length >= 4 ? raw.slice(0, 4) : [...raw, ...Array(4 - raw.length).fill(raw[0])];
 
   return (
     <section
-      className="relative min-h-[70vh] sm:min-h-[75vh] md:min-h-[80vh] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 sm:gap-6 lg:gap-10 px-4 sm:px-6 lg:px-12 py-5 sm:py-6 lg:py-8"
+      className="relative flex flex-col lg:flex-row items-center justify-center gap-4 sm:gap-6 lg:gap-10 px-4 sm:px-6 lg:px-12 pt-6 pb-6 sm:pt-8 sm:pb-8 lg:pt-10 lg:pb-10 min-h-[min(80vh,800px)]"
       style={{
         background: "linear-gradient(45deg, rgba(1, 63, 74, 1) 0%, rgba(128, 223, 242, 1) 100%, rgba(128, 223, 242, 1) 30%, rgba(128, 223, 242, 1) 10%)",
       }}
     >
       <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-6 sm:gap-8 lg:gap-16">
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 sm:gap-8 lg:gap-16">
         <div className="flex-1 text-center lg:text-left text-white order-2 lg:order-1 px-1 sm:px-0">
           <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-3 sm:mb-4">
             {c.name}
@@ -38,15 +39,19 @@ export default function JewelryHero({ pageData }: JewelryHeroProps) {
             {c.description}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-            <button
-              onClick={scrollToQuote}
-              className="btn-highlight group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#97602f] to-[#B27535] hover:from-[#B27535] hover:to-[#97602f] text-white px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold text-base lg:text-lg shadow-lg"
-            >
-              GET A QUOTE
-              <svg className="w-5 h-5 group-hover:translate-x-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            <span className="header-call-btn-wrapper inline-block">
+              <span className="quote-btn-ping" aria-hidden="true" />
+              <button
+                type="button"
+                onClick={scrollToQuote}
+                className="group quote-btn-gradient relative z-10 inline-flex items-center justify-center gap-2 px-6 lg:px-8 py-3 lg:py-4 rounded-full font-semibold text-base lg:text-lg shadow-lg text-white"
+              >
+                GET A QUOTE
+                <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </span>
             <span className="header-call-btn-wrapper inline-block">
               <span className="header-call-btn-ping" aria-hidden="true" />
               <a
@@ -65,39 +70,23 @@ export default function JewelryHero({ pageData }: JewelryHeroProps) {
             </span>
           </div>
         </div>
-        <div className="flex-1 flex justify-center order-1 lg:order-2 w-full min-h-[240px] sm:min-h-[400px] md:min-h-[480px]">
-          <div className="relative w-full max-w-2xl h-[240px] sm:h-[400px] md:h-[480px]">
-            {heroImages.map((imgId, i) => {
-              const positions: Array<{ top?: string; bottom?: string; left?: string; right?: string; rotate: number; scale: number }> = [
-                { top: "5%", left: "0%", rotate: -8, scale: 0.9 },
-                { top: "25%", right: "0%", rotate: 6, scale: 1.05 },
-                { bottom: "0%", left: "15%", rotate: -4, scale: 0.85 },
-              ];
-              const pos = positions[i] ?? positions[0];
-              return (
-                <div
-                  key={imgId}
-                  className="absolute aspect-square w-[50%] sm:w-[180px] md:w-[220px] lg:w-[260px] max-w-[260px]"
-                  style={{
-                    ...(pos.top !== undefined && { top: pos.top }),
-                    ...(pos.bottom !== undefined && { bottom: pos.bottom }),
-                    ...(pos.left !== undefined && { left: pos.left }),
-                    ...(pos.right !== undefined && { right: pos.right }),
-                    zIndex: i + 1,
-                    transform: `rotate(${pos.rotate}deg) scale(${pos.scale})`,
-                  }}
-                >
-                  <Image
-                    src={getCloudinaryUrl(imgId)}
-                    alt={`${c.name} ${i + 1}`}
-                    fill
-                    className="object-contain drop-shadow-lg"
-                    priority={i < 2}
-                    sizes="(max-width: 640px) 180px, (max-width: 768px) 220px, 260px"
-                  />
-                </div>
-              );
-            })}
+        <div className="flex-1 flex items-center justify-center order-1 lg:order-2 w-full shrink-0 mb-4 sm:mb-0">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 w-full max-w-2xl aspect-square max-h-[240px] sm:max-h-[320px] md:max-h-[380px]">
+            {heroImages.map((imgId, i) => (
+              <div
+                key={`${imgId}-${i}`}
+                className="relative w-full aspect-square overflow-hidden"
+              >
+                <Image
+                  src={getCloudinaryUrl(imgId)}
+                  alt={`${c.name} ${i + 1}`}
+                  fill
+                  className="object-contain drop-shadow-lg"
+                  priority={i < 2}
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 45vw, 280px"
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

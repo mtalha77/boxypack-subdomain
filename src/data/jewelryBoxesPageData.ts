@@ -20,6 +20,7 @@ export const jewelryBoxesPageData = {
     "Ring-Box-5_sgqtcn",
     "Ring-Box-4_ecu6ob",
     "Ring-Box-2_olhgty",
+    "Ring-Box-3_qgpnzt",
   ],
   modelPath: "Tuck_End_Auto_Bottom1_ttdsdf",
 

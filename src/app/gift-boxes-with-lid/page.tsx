@@ -2,7 +2,6 @@ import React from "react";
 import JewelryHero from "@/components/landing/JewelryHero";
 import QuoteForm from "@/components/landing/QuoteForm";
 import ProductOverviewSection from "@/components/landing/ProductOverviewSection";
-import MaterialsUsedSection from "@/components/landing/MaterialsUsedSection";
 import SubcategoriesSection from "@/components/landing/SubcategoriesSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import FAQSection from "@/components/landing/FAQSection";
@@ -22,7 +21,6 @@ export default function GiftBoxWithLidPage() {
       <QuoteForm formImages={giftBoxWithLidPageData.quoteFormImages} imageAltPrefix={giftBoxWithLidPageData.name} productName={giftBoxWithLidPageData.name} />
       <ProductOverviewSection pageData={giftBoxWithLidPageData} />
       <TestimonialsSection testimonials={sharedTestimonials} />
-      <MaterialsUsedSection pageData={giftBoxWithLidPageData} />
       <SubcategoriesSection pageData={giftBoxWithLidPageData} />
       <FAQSection pageData={giftBoxWithLidPageData} />
       <CTASection pageData={giftBoxWithLidPageData} />

@@ -4,8 +4,6 @@ import React from "react";
 import type { LandingPageData } from "@/data/landingPageDataTypes";
 import AnimateInView from "@/components/landing/AnimateInView";
 
-const MAIN_SITE_ORIGIN = "https://www.boxypack.com/products/product-by-industry";
-
 interface SubcategoriesSectionProps {
   pageData: LandingPageData;
   ourRangeTitle?: string;
@@ -18,8 +16,6 @@ export default function SubcategoriesSection({
   ourRangeDescription,
 }: SubcategoriesSectionProps) {
   const subcategories = pageData.subcategories;
-  const categoryPath = pageData.mainSiteCategoryPath;
-  const MAIN_SITE_BASE = `${MAIN_SITE_ORIGIN}/${categoryPath}`;
   const title = ourRangeTitle ?? `${pageData.name} We Offer`;
   const description =
     ourRangeDescription ??
@@ -42,15 +38,13 @@ export default function SubcategoriesSection({
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
           {subcategories.map((sub) => (
-            <a
+            <span
               key={sub.slug}
-              href={`${MAIN_SITE_BASE}/${sub.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-center rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 sm:px-4 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:border-[#0c6b76] hover:bg-[#0c6b76]/5 hover:text-[#0c6b76] transition-colors"
+              role="presentation"
+              className="flex items-center justify-center rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 sm:px-4 sm:py-3 text-center text-xs sm:text-sm font-medium text-gray-700 hover:border-[#0c6b76] hover:bg-[#0c6b76]/5 hover:text-[#0c6b76] transition-colors cursor-default"
             >
               {sub.name}
-            </a>
+            </span>
           ))}
         </div>
         </AnimateInView>

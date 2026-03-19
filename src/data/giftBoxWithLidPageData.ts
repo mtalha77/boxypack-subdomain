@@ -20,6 +20,7 @@ export const giftBoxWithLidPageData: LandingPageData = {
     "Gift-Box-With-Lid-5_uutcij",
     "Gift-Box-With-Lid-3_rb1jmt",
     "Gift-Box-With-Lid-4_jzx14z",
+    "Gift-Box-With-Lid-1_wv1vgz",
   ],
   modelPath: "Tuck_End_Auto_Bottom1_ttdsdf",
 

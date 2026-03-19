@@ -21,7 +21,7 @@ export default function LandingHeader() {
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-2 sm:gap-4">
-          <Link href="/custom-jewelry-boxes" className="flex-shrink-0 flex items-center">
+          <Link href="/" className="flex-shrink-0 flex items-center">
             <Image
               src={getLogoUrl()}
               alt="Boxypack"
@@ -34,15 +34,19 @@ export default function LandingHeader() {
 
           {/* Desktop: both buttons visible */}
           <div className="hidden md:flex items-stretch gap-2 sm:gap-3">
-            <button
-              onClick={scrollToQuote}
-              className="btn-highlight-outline group inline-flex items-center justify-center gap-1.5 h-10 bg-white border-2 border-[#0c6b76] text-[#0c6b76] hover:bg-[#0c6b76] hover:text-white px-4 sm:px-5 rounded-full font-semibold text-sm shadow-md"
-            >
-              Get Custom Quote
-              <svg className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            <span className="header-call-btn-wrapper flex items-stretch">
+              <span className="quote-btn-ping quote-btn-ping-compact" aria-hidden="true" />
+              <button
+                type="button"
+                onClick={scrollToQuote}
+                className="group quote-btn-gradient relative z-10 flex items-center justify-center gap-1.5 h-10 rounded-full font-semibold text-sm shadow-md px-4 sm:px-5 text-white"
+              >
+                Get Custom Quote
+                <svg className="w-4 h-4 flex-shrink-0 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </span>
             <span className="header-call-btn-wrapper flex items-stretch">
               <span className="header-call-btn-ping header-call-btn-ping-compact" aria-hidden="true" />
               <a
@@ -90,15 +94,19 @@ export default function LandingHeader() {
           }`}
         >
           <nav className="flex flex-col gap-2 pt-2 pb-3 border-t border-gray-100 mt-2" aria-label="Mobile menu">
-            <button
-              onClick={scrollToQuote}
-              className="btn-highlight-outline w-full inline-flex items-center justify-center gap-2 h-11 bg-white border-2 border-[#0c6b76] text-[#0c6b76] hover:bg-[#0c6b76] hover:text-white px-4 rounded-full font-semibold text-sm"
-            >
-              Get Custom Quote
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            <span className="header-call-btn-wrapper w-full inline-flex">
+              <span className="quote-btn-ping quote-btn-ping-compact" aria-hidden="true" />
+              <button
+                type="button"
+                onClick={scrollToQuote}
+                className="group quote-btn-gradient relative z-10 w-full flex items-center justify-center gap-2 h-11 rounded-full font-semibold text-sm shadow-md px-4 text-white"
+              >
+                Get Custom Quote
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </span>
             <a
               href={companyContactData.phoneHref}
               onClick={() => setMenuOpen(false)}

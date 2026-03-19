@@ -158,6 +158,80 @@ body {
   animation: header-call-shimmer 1.4s ease-out forwards;
 }
 
+.header-call-btn-gradient:disabled {
+  animation: none;
+}
+.header-call-btn-gradient:disabled::before {
+  animation: none;
+}
+
+/* Quote button – brown gradient, same ping/shine/shimmer as call button */
+@keyframes quote-btn-shine {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(151, 96, 47, 0.35), 0 0 24px rgba(178, 117, 53, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(151, 96, 47, 0.2), 0 0 32px rgba(178, 117, 53, 0.6);
+  }
+}
+
+.quote-btn-ping {
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, #97602f 0%, #B27535 50%, #c48b45 100%);
+  background-size: 200% 200%;
+  animation: header-call-ping 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  pointer-events: none;
+}
+
+.quote-btn-ping-compact {
+  inset: -2px;
+}
+
+.quote-btn-gradient {
+  background: linear-gradient(135deg, #8a5829 0%, #97602f 25%, #B27535 50%, #c48b45 75%, #97602f 100%);
+  background-size: 300% 300%;
+  background-position: 0% 50%;
+  animation: header-call-gradient-flow 5s ease-in-out infinite, quote-btn-shine 6s ease-in-out infinite;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-btn-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  pointer-events: none;
+  animation: header-call-shimmer-loop 8s ease-in-out infinite;
+}
+
+.quote-btn-gradient:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 4px rgba(178, 117, 53, 0.3), 0 0 40px rgba(178, 117, 53, 0.5), 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.quote-btn-gradient:hover::before {
+  animation: header-call-shimmer 1.4s ease-out forwards;
+}
+
+.quote-btn-gradient:disabled {
+  animation: none;
+}
+.quote-btn-gradient:disabled::before {
+  animation: none;
+}
+
 /* View-triggered animations (smooth fade/slide when in view) */
 @keyframes animate-in-view-fade-up {
   from {

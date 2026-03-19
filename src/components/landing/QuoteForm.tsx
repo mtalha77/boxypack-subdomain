@@ -115,18 +115,81 @@ export default function QuoteForm({
         return;
       }
 
-      // Optional: integrate EmailJS or your API here using quoteFormData and productName
-
-      setQuoteSubmitted(true);
-      setQuoteFormData({
-        name: "",
-        phone: "",
-        email: "",
-        dimensions: "",
-        details: "",
+      const standardizedPhone = formatPhoneNumber(quoteFormData.phone.trim());
+      const dimensions = quoteFormData.dimensions.trim() || "Not specified";
+      const timeValue = new Date().toLocaleString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
       });
-      setTimeout(() => setQuoteSubmitted(false), 5000);
-      setIsSubmittingQuote(false);
+      const orderDetails = `Product: ${productName}\nDimensions: ${dimensions}\n\nAdditional Details:\n${quoteFormData.details.trim() || "No additional details provided"}`;
+
+      try {
+        const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || "";
+        const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || "";
+        const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || "";
+
+        if (serviceId && templateId && publicKey) {
+          const emailjs = (await import("@emailjs/browser")).default;
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              full_name: quoteFormData.name.trim(),
+              email: quoteFormData.email.trim(),
+              phone: standardizedPhone,
+              order_details: orderDetails,
+              time: timeValue,
+            },
+            publicKey
+          );
+        }
+
+        try {
+          await fetch("/api/leads", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: quoteFormData.name.trim(),
+              email: quoteFormData.email.trim(),
+              phone: standardizedPhone,
+              productName,
+              categorySlug: "",
+              productSlug: "",
+              dimensions: quoteFormData.dimensions.trim() || "",
+              requiredUnits: null,
+              details: quoteFormData.details.trim() || "",
+              source: "subdomain-landing",
+              submittedAt: new Date().toISOString(),
+            }),
+          });
+        } catch (dbErr) {
+          console.error("Failed to save lead:", dbErr);
+        }
+
+        setQuoteSubmitted(true);
+        setQuoteFormData({
+          name: "",
+          phone: "",
+          email: "",
+          dimensions: "",
+          details: "",
+        });
+        setTimeout(() => setQuoteSubmitted(false), 5000);
+      } catch (err) {
+        const msg =
+          err && typeof err === "object" && "text" in err
+            ? (err as { text: string }).text
+            : err instanceof Error
+              ? err.message
+              : "Failed to send quote request. Please try again or contact us directly.";
+        setQuoteError(msg);
+      } finally {
+        setIsSubmittingQuote(false);
+      }
     },
     [quoteFormData, productName]
   );
@@ -192,7 +255,7 @@ export default function QuoteForm({
             </div>
           </div>
 
-          <div className="flex items-start w-full">
+          <div className="relative z-20 flex items-start w-full">
             <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 space-y-4">
               <div className="text-left">
                 <div className="flex items-center gap-3 mb-2">
@@ -231,7 +294,7 @@ export default function QuoteForm({
                       value={quoteFormData.name}
                       onChange={(e) => setQuoteFormData((prev) => ({ ...prev, name: e.target.value }))}
                       required
-                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm"
+                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm text-gray-900 placeholder:text-gray-500"
                       placeholder="Enter your full name"
                     />
                   </div>
@@ -251,7 +314,7 @@ export default function QuoteForm({
                       }}
                       required
                       inputMode="tel"
-                      className={`w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm ${phoneError ? "bg-red-50 border border-red-300" : ""}`}
+                      className={`w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm text-gray-900 placeholder:text-gray-500 ${phoneError ? "bg-red-50 border border-red-300" : ""}`}
                       placeholder="+1234567890 or 1234567890"
                     />
                     {phoneError && <p className="text-xs text-red-600 mt-1">{phoneError}</p>}
@@ -267,7 +330,7 @@ export default function QuoteForm({
                       value={quoteFormData.email}
                       onChange={(e) => setQuoteFormData((prev) => ({ ...prev, email: e.target.value }))}
                       required
-                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm"
+                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm text-gray-900 placeholder:text-gray-500"
                       placeholder="Enter your email address"
                     />
                   </div>
@@ -278,7 +341,7 @@ export default function QuoteForm({
                       type="text"
                       value={quoteFormData.dimensions}
                       onChange={(e) => setQuoteFormData((prev) => ({ ...prev, dimensions: e.target.value }))}
-                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm"
+                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm text-gray-900 placeholder:text-gray-500"
                       placeholder="Length x Width x Height (e.g., 9.5 x 7.75 x 4)"
                     />
                   </div>
@@ -289,7 +352,7 @@ export default function QuoteForm({
                       value={quoteFormData.details}
                       onChange={(e) => setQuoteFormData((prev) => ({ ...prev, details: e.target.value }))}
                       rows={4}
-                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm resize-none"
+                      className="w-full px-3 py-2 rounded-lg bg-[#F1F1F1] focus:outline-none focus:ring-2 focus:ring-[#0c6b76] text-sm text-gray-900 placeholder:text-gray-500 resize-none"
                       placeholder="Enter any additional details or requirements..."
                     />
                   </div>
@@ -300,25 +363,28 @@ export default function QuoteForm({
                     </div>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={isSubmittingQuote || quoteSubmitted}
-                    className="btn-highlight w-full bg-[#0C6B76] text-white font-semibold py-2.5 px-4 rounded-lg hover:bg-[#0a5a63] shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm disabled:transform-none disabled:shadow-md"
-                  >
-                    {isSubmittingQuote ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                        Submitting...
-                      </>
-                    ) : (
-                      <>
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                        </svg>
-                        Get Custom Quote
-                      </>
-                    )}
-                  </button>
+                  <span className="header-call-btn-wrapper block w-full">
+                    <span className="quote-btn-ping quote-btn-ping-compact" aria-hidden="true" />
+                    <button
+                      type="submit"
+                      disabled={isSubmittingQuote || quoteSubmitted}
+                      className="quote-btn-gradient relative z-10 w-full text-white font-semibold py-2.5 px-4 rounded-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm disabled:transform-none disabled:shadow-md"
+                    >
+                      {isSubmittingQuote ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                          </svg>
+                          Get Custom Quote
+                        </>
+                      )}
+                    </button>
+                  </span>
                 </form>
               )}
             </div>

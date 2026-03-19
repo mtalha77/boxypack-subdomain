@@ -121,16 +121,19 @@ export default function ProductOverviewSection({ pageData }: ProductOverviewSect
         <p className="text-gray-700 text-center text-sm sm:text-base md:text-lg max-w-xl px-4">
           Ready to see your price? Get a custom quote in minutes, no obligation.
         </p>
-        <button
-          type="button"
-          onClick={scrollToQuote}
-          className="btn-highlight group inline-flex items-center justify-center gap-2 bg-gradient-to-r from-[#0c6b76] to-[#0ca6c2] hover:from-[#0ca6c2] hover:to-[#0c6b76] text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg shadow-lg"
-        >
-          Get My Quote
-          <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
+        <span className="header-call-btn-wrapper inline-block">
+          <span className="quote-btn-ping" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={scrollToQuote}
+            className="group quote-btn-gradient relative z-10 inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 rounded-full font-semibold text-base sm:text-lg shadow-lg text-white"
+          >
+            Get My Quote
+            <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </span>
       </div>
       </AnimateInView>
     </>

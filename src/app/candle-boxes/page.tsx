@@ -2,7 +2,6 @@ import React from "react";
 import JewelryHero from "@/components/landing/JewelryHero";
 import QuoteForm from "@/components/landing/QuoteForm";
 import ProductOverviewSection from "@/components/landing/ProductOverviewSection";
-import MaterialsUsedSection from "@/components/landing/MaterialsUsedSection";
 import SubcategoriesSection from "@/components/landing/SubcategoriesSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 import FAQSection from "@/components/landing/FAQSection";
@@ -22,7 +21,6 @@ export default function CandleBoxesPage() {
       <QuoteForm formImages={candleBoxesPageData.quoteFormImages} imageAltPrefix={candleBoxesPageData.name} productName={candleBoxesPageData.name} />
       <ProductOverviewSection pageData={candleBoxesPageData} />
       <TestimonialsSection testimonials={sharedTestimonials} />
-      <MaterialsUsedSection pageData={candleBoxesPageData} />
       <SubcategoriesSection pageData={candleBoxesPageData} />
       <FAQSection pageData={candleBoxesPageData} />
       <CTASection pageData={candleBoxesPageData} />

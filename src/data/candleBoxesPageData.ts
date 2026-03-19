@@ -20,6 +20,7 @@ export const candleBoxesPageData: LandingPageData = {
     "Custom-Jar-Candle-Box-1_alcofz",
     "Custom-Jar-Candle-Box-2_yprire",
     "Custom-Jar-Candle-Box-3_v2blyk",
+    "Custom-Jar-Candle-Box-4_bp8kcj",
   ],
   modelPath: "Tuck_End_Auto_Bottom1_ttdsdf",
 
