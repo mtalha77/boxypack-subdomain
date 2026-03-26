@@ -33,14 +33,14 @@ export default function ContactTopBar() {
         <span>{companyContactData.phone}</span>
       </a>
       <a
-        href={`mailto:${companyContactData.salesEmail}`}
+        href={`mailto:${companyContactData.infoEmail}`}
         className="flex items-center gap-2 text-xs md:text-sm hover:text-[#0c6b76] transition-colors"
-        aria-label={`Email ${companyContactData.salesEmail}`}
+        aria-label={`Email ${companyContactData.infoEmail}`}
       >
         <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
         </svg>
-        <span>{companyContactData.salesEmail}</span>
+        <span>{companyContactData.infoEmail}</span>
       </a>
     </div>
   );
