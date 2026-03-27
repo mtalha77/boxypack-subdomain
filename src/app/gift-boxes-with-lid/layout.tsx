@@ -2,6 +2,11 @@ import React from "react";
 import Script from "next/script";
 import ProductLandingLayout from "@/components/landing/ProductLandingLayout";
 
+const GTAG_INLINE = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-PSLDBKH936');`;
+
 const GTM_INLINE = `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
@@ -15,6 +20,14 @@ export default function GiftBoxWithLidLayout({
 }) {
   return (
     <>
+      {/* Google tag (gtag.js) — G-PSLDBKH936 */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-PSLDBKH936"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics-gtag-gift-boxes-with-lid" strategy="afterInteractive">
+        {GTAG_INLINE}
+      </Script>
       {/* Google Tag Manager — /gift-boxes-with-lid only */}
       <Script id="google-tag-manager-gift-boxes-with-lid" strategy="afterInteractive">
         {GTM_INLINE}
