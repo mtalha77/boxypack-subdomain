@@ -1,7 +1,6 @@
 import React from "react";
 import FreeShippingBanner from "@/components/landing/FreeShippingBanner";
 import ContactTopBar from "@/components/landing/ContactTopBar";
-import GoogleTagManager from "@/components/landing/GoogleTagManager";
 import LandingHeader from "@/components/landing/LandingHeader";
 import LandingFooter from "@/components/landing/LandingFooter";
 
@@ -12,7 +11,6 @@ export default function ProductLandingLayout({
 }) {
   return (
     <>
-      <GoogleTagManager />
       <div className="min-h-screen flex flex-col">
       <FreeShippingBanner />
       <ContactTopBar />
