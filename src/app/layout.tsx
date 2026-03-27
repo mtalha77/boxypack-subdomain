@@ -24,6 +24,11 @@ const breeSerif = Bree_Serif({
 export const metadata: Metadata = {
   title: "BoxyPack",
   description: "Custom packaging solutions",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
