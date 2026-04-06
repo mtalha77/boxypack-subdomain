@@ -4,6 +4,11 @@ import { Geist, Geist_Mono, Bree_Serif } from "next/font/google";
 import "./globals.css";
 import TawkNotifications from "./components/TawkNotifications";
 
+const GOOGLE_ADS_GTAG_INLINE = `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'AW-17815349096');`;
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -42,6 +47,14 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${breeSerif.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        {/* Google tag (gtag.js) — Google Ads AW-17815349096 (all pages) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17815349096"
+          strategy="afterInteractive"
+        />
+        <Script id="google-ads-gtag-aw-17815349096" strategy="afterInteractive">
+          {GOOGLE_ADS_GTAG_INLINE}
+        </Script>
         {children}
         {/* Tawk.to Live Chat Widget (same embed as main site boxypack-nextjs) */}
         <Script id="tawk-to" strategy="afterInteractive">
